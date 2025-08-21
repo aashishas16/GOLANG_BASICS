@@ -1,0 +1,21 @@
+syntax = "proto3";              // Version of Protobuf syntax
+
+package calculator;              // Package name for the service
+
+option go_package = "example.com/grpc/calculatorpb"; // Go module path for generated code
+
+// Message for request
+message AddRequest {
+  int32 num1 = 1;   // first number
+  int32 num2 = 2;   // second number
+}
+
+// Message for response
+message AddResponse {
+  int32 result = 1; // result of addition
+}
+
+// Service definition
+service CalculatorService {
+  rpc Add(AddRequest) returns (AddResponse); // RPC method
+}

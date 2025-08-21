@@ -1,0 +1,144 @@
+basePath: /
+definitions:
+  main.Author:
+    properties:
+      fullname:
+        type: string
+      website:
+        type: string
+    type: object
+  main.Course:
+    properties:
+      author:
+        $ref: '#/definitions/main.Author'
+      course_id:
+        type: string
+      course_name:
+        type: string
+      course_price:
+        type: integer
+    type: object
+host: localhost:4000
+info:
+  contact: {}
+  description: This is a sample API for a course management system.
+  title: Go API with Swagger
+  version: "1.0"
+paths:
+  /courses:
+    get:
+      description: Retrieves a list of all courses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Course'
+            type: array
+      summary: Get all courses
+    post:
+      consumes:
+      - application/json
+      description: Adds a new course to the system
+      parameters:
+      - description: Course data to create
+        in: body
+        name: course
+        required: true
+        schema:
+          $ref: '#/definitions/main.Course'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created course
+          schema:
+            $ref: '#/definitions/main.Course'
+        "400":
+          description: No data inside the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new course
+  /courses/{course_id}:
+    delete:
+      description: Deletes a course by its unique ID
+      parameters:
+      - description: Course ID
+        in: path
+        name: course_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Course deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: No course found with the given ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a course
+    get:
+      description: Get details for a specific course by its unique ID
+      operationId: get-one-course
+      parameters:
+      - description: Course ID
+        in: path
+        name: course_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Course'
+        "404":
+          description: No course found with the given ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a single course by ID
+    put:
+      consumes:
+      - application/json
+      description: Updates the details of a course by its ID
+      parameters:
+      - description: Course ID
+        in: path
+        name: course_id
+        required: true
+        type: string
+      - description: Updated course data
+        in: body
+        name: course
+        required: true
+        schema:
+          $ref: '#/definitions/main.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Course'
+        "404":
+          description: No course found with the given ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an existing course
+swagger: "2.0"
